@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  data:
+    redis:
+      port: 6379
+      host: localhost
+      channels:
+       paymentRequest: paymentRequest-event
+       paymentClear: paymentClear-event
+       paymentCancel: paymentCancel-event
+       paymentApprove: paymentApprove-event
+
+server:
+  port: 6666
+
+logging:
+  level:
+    root: info
+
+currency:
+  exchange:
+    url: https://openexchangerates.org
+    appId: 54c9101b6a0f419f97fb26f11d02955d
+    commission: 1
