@@ -19,7 +19,7 @@ class AsyncExecutorServiceConfig {
     @Value("${executor.queueCapacity}")
     private int queueCapacity;
 
-    @Bean(name = "asyncExecutor") // Имя, которое будет использоваться в аннотации @Async
+    @Bean(name = "asyncExecutor")
     public ThreadPoolTaskExecutor asyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize);

@@ -31,7 +31,6 @@ public class HashCache {
 
     @PostConstruct
     private void init() {
-
         this.hashQueue = new LinkedBlockingQueue<>(cacheSize);
         this.howTo20Percent = cacheSize * 0.2;
     }
@@ -53,7 +52,6 @@ public class HashCache {
                 });
             }
             while (hashQueue.isEmpty()) {
-                // Небольшая задержка для ожидания
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

@@ -17,5 +17,4 @@ public class Hash {
     @Column(name = "hash")
     @JoinColumn(name = "hash")
     private String hash;
-
 }

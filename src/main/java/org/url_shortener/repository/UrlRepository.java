@@ -14,4 +14,5 @@ public interface UrlRepository extends JpaRepository<Url, Long> {
 
     @Query("SELECT u FROM Url u WHERE u.createdAt < :dateThreshold")
     List<Url> findUrlsOlderThanOneYear(@Param("dateThreshold") LocalDateTime dateThreshold);
+
 }

@@ -39,4 +39,5 @@ public class Base62Encoder {
         }
         return (result.isEmpty()) ? DIGITS.substring(0, 1) : result.toString();
     }
+
 }

@@ -24,4 +24,5 @@ public class HashGenerator {
                 hashes.forEach(hashRepository::save)
         );
     }
+
 }

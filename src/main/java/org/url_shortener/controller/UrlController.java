@@ -36,4 +36,5 @@ public class UrlController {
             throw new DataValidationException("Invalid URL: " + url);
         }
     }
+
 }

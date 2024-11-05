@@ -41,5 +41,4 @@ public class UrlServiceImpl implements UrlService {
             return new UrlDto(urlFromDB.getUrl());
         }
     }
-
 }
