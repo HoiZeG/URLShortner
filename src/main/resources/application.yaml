@@ -34,8 +34,13 @@ logging:
   level:
     root: info
 
-currency:
-  exchange:
-    url: https://openexchangerates.org
-    appId: 54c9101b6a0f419f97fb26f11d02955d
-    commission: 1
+hash:
+  n: 10
+
+scheduler:
+  cron: "0 0 0 * * ?"
+
+executor:
+  corePoolSize: 1
+  maxPoolSize: 10
+  queueCapacity: 10

@@ -4,10 +4,12 @@ CREATE TABLE hash (
 
 CREATE TABLE url (
     hash VARCHAR(6) PRIMARY KEY,
-    url VARCHAR(255),
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT url_hash_fk
-                 FOREIGN KEY (hash) REFERENCES hash(hash)
+    url VARCHAR(500),
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE SEQUENCE unique_number_seq;
+CREATE SEQUENCE unique_number_seq
+START WITH 1
+INCREMENT BY 1
+CACHE 10
+;

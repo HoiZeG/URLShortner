@@ -3,5 +3,6 @@ package org.url_shortener.service;
 import org.url_shortener.dto.UrlDto;
 
 public interface UrlService {
-    void shortenUrl(UrlDto urlDto);
+    UrlDto shortenUrl(UrlDto urlDto);
+    UrlDto getNormalUrl(String hash);
 }
