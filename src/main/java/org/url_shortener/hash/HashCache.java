@@ -31,6 +31,7 @@ public class HashCache {
 
     @PostConstruct
     private void init() {
+
         this.hashQueue = new LinkedBlockingQueue<>(cacheSize);
         this.howTo20Percent = cacheSize * 0.2;
     }
