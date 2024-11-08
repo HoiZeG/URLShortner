@@ -2,7 +2,7 @@ package org.url_shortener.hash;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.url_shortener.generator.HashGenerator;
@@ -14,18 +14,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class HashCache {
     @Value("${executor.queueCapacity}")
     private int cacheSize;
 
-    @Qualifier("executorService")
     private final ExecutorService executorService;
-    private BlockingQueue<String> hashQueue;
     private final AtomicBoolean isRefilling = new AtomicBoolean(false);
     private final HashRepository hashRepository;
     private final HashGenerator hashGenerator;
+    private BlockingQueue<String> hashQueue;
 
     double howTo20Percent;
 
@@ -40,16 +40,18 @@ public class HashCache {
             return hashQueue.poll();
         } else {
             if (isRefilling.compareAndSet(false, true)) {
-                executorService.execute(() -> {
-                    int batchSize = cacheSize - hashQueue.size();
-                    List<String> hashes = hashRepository.getHashBatch(batchSize);
-                    hashes.forEach(System.out::println);
-                    System.out.println("Before adding to queue: " + hashQueue);
-                    hashes.forEach(hashQueue::offer);
-                    System.out.println("After adding to queue: " + hashQueue);
-                    hashGenerator.generateBatch();
-                    isRefilling.set(false);
-                });
+                synchronized (hashQueue) {
+                    executorService.execute(() -> {
+                        int batchSize = cacheSize - hashQueue.size();
+                        List<String> hashes = hashRepository.getHashBatch(batchSize);
+                        hashes.forEach(System.out::println);
+                        log.info("Before adding to queue: " + hashQueue);
+                        hashes.forEach(hashQueue::offer);
+                        log.info("After adding to queue: " + hashQueue);
+                        hashGenerator.generateBatch();
+                        isRefilling.set(false);
+                    });
+                }
             }
             while (hashQueue.isEmpty()) {
                 try {

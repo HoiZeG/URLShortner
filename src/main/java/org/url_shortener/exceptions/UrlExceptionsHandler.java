@@ -69,5 +69,4 @@ public class UrlExceptionsHandler {
                 request.getRequestURI()
         );
     }
-
 }
