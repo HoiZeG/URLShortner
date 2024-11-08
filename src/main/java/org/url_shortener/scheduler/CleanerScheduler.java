@@ -28,4 +28,5 @@ public class CleanerScheduler {
         List<Hash> hashList = hashStringList.stream().map(Hash::new).toList();
         hashRepository.saveAll(hashList);
     }
+
 }

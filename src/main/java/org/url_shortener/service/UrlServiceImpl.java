@@ -1,5 +1,6 @@
 package org.url_shortener.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,18 +29,19 @@ public class UrlServiceImpl implements UrlService {
         urlRepository.save(url);
         urlRedisRepository.save(hash, url);
         UrlDto urlDto1 = new UrlDto();
-        urlDto1.setUrl(String.format("http://localhost:9080/%s", hash));
+        urlDto1.setUrl(String.format("https://faang.school/%s", hash));
         return urlDto1;
     }
 
+    @Transactional(readOnly = true)
+    @Override
     public UrlDto getNormalUrl(String hash) {
         Optional<Url> urlFromRedis = urlRedisRepository.find(hash);
         if (urlFromRedis.isPresent()) {
             return new UrlDto(urlFromRedis.get().getUrl());
         } else {
-            Url urlFromDB = urlRepository.findByHash(hash).orElseThrow(() -> new RuntimeException("Hash not found"));
+            Url urlFromDB = urlRepository.findByHash(hash).orElseThrow(() -> new EntityNotFoundException("Hash not found"));
             return new UrlDto(urlFromDB.getUrl());
         }
     }
-
 }

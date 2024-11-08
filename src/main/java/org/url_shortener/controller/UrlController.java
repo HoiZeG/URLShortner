@@ -1,7 +1,6 @@
 package org.url_shortener.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.url_shortener.dto.UrlDto;
@@ -26,13 +25,11 @@ public class UrlController {
     @GetMapping("/{hash}")
     public ResponseEntity<UrlResponse> getUrl(@PathVariable String hash) {
         UrlDto urlDto = urlService.getNormalUrl(hash);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", urlDto.getUrl());
         return ResponseEntity.ok(new UrlResponse(urlDto.getUrl()));
     }
 
     private void validateUrl(String url) {
-        if (!url.contains("http://")) {
+        if (!url.contains("https://")) {
             throw new DataValidationException("Invalid URL: " + url);
         }
     }

@@ -17,7 +17,7 @@ public class HashGenerator {
     private final HashRepository hashRepository;
     private final Base62Encoder base62Encoder;
 
-    @Async("asyncExecutor")
+    @Async("asyncExecutorToHashGenerator")
     public void generateBatch() {
         List<Long> uniqueNumbers = hashRepository.getUniqueNumbers(n);
         base62Encoder.encode(uniqueNumbers).thenAccept(hashes ->

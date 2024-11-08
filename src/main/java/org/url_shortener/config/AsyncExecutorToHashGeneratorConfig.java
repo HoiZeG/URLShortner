@@ -8,7 +8,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
 @EnableAsync
-public class Async2Config {
+class AsyncExecutorToHashGeneratorConfig {
+
     @Value("${executor.corePoolSize}")
     private int corePoolSize;
 
@@ -18,7 +19,7 @@ public class Async2Config {
     @Value("${executor.queueCapacity}")
     private int queueCapacity;
 
-    @Bean(name = "asyncExecutor2") // Имя, которое будет использоваться в аннотации @Async
+    @Bean(name = "asyncExecutorToHashGenerator")
     public ThreadPoolTaskExecutor asyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize);
